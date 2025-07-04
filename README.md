@@ -14,7 +14,7 @@ This task is your opportunity to **showcase your web development skills**—from
 ### 📌 What You Need to Do:
 
 1. **Fork this repository.**
-2. Inside the `Submissions/` folder, create a new folder named **your\_name** (e.g., `Submissions/shuchih-negi`).
+2. Inside the `Submissions/` folder, create a new folder named **yourname_rollno** (e.g., `Submissions/shuchih-negi_xxxxxxxxxx`).
 3. Add your HTML/CSS/JS files, assets, or frameworks inside your folder.
 4. Update the `README.md` inside your folder with:
 
