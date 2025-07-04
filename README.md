@@ -43,7 +43,3 @@ Create a personal/portfolio-style web page that gives us a sense of:
 ### 🚨 Important:
 
 **You must fork the repo first before making any changes. PRs made without forking will not be accepted.**
-
----
-
-Let me know if you'd like a sample starter file or to embed the Echoes site as a reference in the repo!
