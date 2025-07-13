@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Saurabh, a Linux enthusiast, AI/ML lover, and retro gaming aficionado with a passion for self-growth and social good.">
+    <title>Saurabh's Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&family=Noto+Sans:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #8B5FBF;
+            --light-purple: #B19CD9;
+            --pink-accent: #E8B4CB;
+            --blue-accent: #A8C8EC;
+            --muted-green: #7FB069;
+            --dark-purple: #4A3B5C;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #E8E8E8;
+            --text-secondary: #D0D0D0;
+            --darker-glass-bg: rgba(230, 230, 230, 0.09); /* 10% darker than --glass-bg */
+        }
+
+        body {
+    font-family: 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+        /* Add this block for transparent background image */   
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('background.jpg') no-repeat center/cover;
+            opacity: 0.95; /* 10% visible */
+            z-index: -1; /* Behind everything */
+            pointer-events: none; /* So it's not interactive */
+}
+
+
+        /* Animated background elements */
+        .fireflies {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFE4B5, #FFA500);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { opacity: 0; transform: translateY(100vh) translateX(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10vh) translateX(100px); }
+        }
+
+        .sakura {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--pink-accent);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: fall 12s infinite linear;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-title {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--muted-green);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(127, 176, 105, 0.3);
+        }
+
+        /* Clock widget */
+        .clock-widget {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1;
+            text-align: right;
+            opacity: 0.5;
+        }
+
+        .clock {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 2rem;
+            color: var(--muted-green);
+            font-weight: 300;
+            margin-bottom: 0.25rem;
+        }
+
+        .date {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1rem;
+            color: var(--light-purple);
+            font-weight: 300;
+        }
+
+        /* About section */
+        .about-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .about-card {
+            backdrop-filter: blur(15px);
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .about-card:nth-child(1) { animation-delay: 0.2s; }
+        .about-card:nth-child(2) { animation-delay: 0.4s; }
+        .about-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .about-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1.5rem;
+            color:var(--muted-green);
+            background: var(--darker-glass-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: -2rem -2rem 1rem -2rem; /* Padding between title and content */
+        }
+
+        .card-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: black;
+        }
+
+        .card-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+
+        .card-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dock */
+        .dock {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .dock-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .dock-icon:hover, .dock-icon:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 95, 191, 0.4);
+        }
+
+        .dock-icon:focus {
+            outline: 2px solid var(--light-purple);
+            outline-offset: 2px;
+        }
+
+        .dock-icon.clicked {
+            transform: translateY(-5px) scale(0.95);
+        }
+
+        .dock-icon.clicked-end {
+            transform: translateY(-5px) scale(1);
+        }
+
+        .dock-icon:nth-child(2) { background: var(--pink-accent); }
+        .dock-icon:nth-child(3) { background: var(--blue-accent); }
+        .dock-icon:nth-child(4) { background: var(--muted-green); }
+        .dock-icon:nth-child(5) { background: var(--light-purple); }
+
+        /* Visually hidden for accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .clock {
+                font-size: 1.5rem;
+            }
+
+            .date {
+                font-size: 0.8rem;
+            }
+
+            .dock {
+                bottom: 1rem;
+                padding: 0.8rem 1.5rem;
+                gap: 0.8rem;
+            }
+
+            .dock-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glowing effect */
+        .glow {
+            box-shadow: 0 0 20px rgba(139, 95, 191, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background elements -->
+    <div class="fireflies" id="fireflies"></div>
+
+    <!-- Clock widget -->
+    <div class="clock-widget">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="date" id="date">Loading...</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header fade-in">
+            <h1 class="main-title">Ahoy! So you want to know Saurabh</h1>
+        </header>
+
+        <!-- About section -->
+        <section class="about-section">
+            <div class="about-card fade-in">
+                <h2 class="card-title">Technical</h2>
+                <div class="card-content">
+                    <ul>
+                        <li>Obsessed with Linux ricing</li>
+                        <li>Passionate about AI/ML</li>
+                        <li>Enjoys gaming old retro games like Mario, Contra, and Tekken 3</li>
+                        <li>Always tinkering with configurations</li>
+                        <li>Explores new technologies</li>
+                        <li>Dives deep into making systems beautiful and functional</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-card fade-in">
+                <h2 class="card-title">Personal</h2>
+                <div class="card-content">
+                    <ul>
+                        <li>Invested in self-growth</li>
+                        <li>Focused on self-awareness</li>
+                        <li>Believes you can always be better</li>
+                        <li>Values continuous learning</li>
+                        <li>Practices mindful reflection</li>
+                        <li>Embraces the journey of becoming the best version of oneself</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-card fade-in">
+                <h2 class="card-title">Social</h2>
+                <div class="card-content">
+                    <ul>
+                        <li>Loves feeding dogs (works with PFA for campus dogs)</li>
+                        <li>Extrovert who appreciates interaction with new people</li>
+                        <li>Always open to new experiences</li>
+                        <li>Finds joy in connecting with others</li>
+                        <li>Committed to making a positive impact in the community</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Dock -->
+    <div class="dock">
+        <a class="dock-icon" href="https://end-4.github.io/dots-hyprland-wiki/en/general/showcase/" title="Terminal" aria-label="Open Terminal" tabindex="0">
+            <span class="visually-hidden">Open Terminal</span>⌘
+        </a>
+        <a class="dock-icon" href="https://github.com/simplernix" title="Code" aria-label="View Code" tabindex="0">
+            <span class="visually-hidden">View Code</span>⚡
+        </a>
+        <a class="dock-icon" href="https://bonk.io/" title="Games" aria-label="View Games" tabindex="0">
+            <span class="visually-hidden">View Games</span>🎮
+        </a>
+        <a class="dock-icon" href="mailto:sshivhare_be24@thapar.edu" title="Contact" aria-label="Contact Me" tabindex="0">
+            <span class="visually-hidden">Contact Me</span>📧
+        </a>
+        <a class="dock-icon" href="https://in.linkedin.com/in/saurabh-shivhare-aa0aa3337" title="LinkedIn" aria-label="View LinkedIn" tabindex="0">
+            <span class="visually-hidden">View LinkedIn</span>🔗
+        </a>
+    </div>
+
+    <script>
+        // Clock functionality
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const dateString = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            document.getElementById('clock').textContent = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Limit fireflies and sakura
+        const maxFireflies = 1000;
+        const maxSakura = 1500;
+        let fireflyCount = 500;
+        let sakuraCount = 500;
+
+        function createFirefly() {
+            if (fireflyCount >= maxFireflies) return;
+            fireflyCount++;
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            firefly.style.left = Math.random() * 100 + '%';
+            firefly.style.animationDelay = Math.random() * 0.01 + 's';
+            firefly.style.animationDuration = (8 + Math.random() * 4) + 's';
+            document.getElementById('fireflies').appendChild(firefly);
+            setTimeout(() => {
+                firefly.remove();
+                fireflyCount--;
+            }, 12000);
+        }
+
+        function createSakura() {
+            if (sakuraCount >= maxSakura) return;
+            sakuraCount++;
+            const sakula = document.createElement('div');
+            sakura.className = 'sakura';
+            sakura.style.left = Math.random() * 100 + '%';
+            sakura.style.animationDelay = Math.random() * 0.01 + 's';
+            sakura.style.animationDuration = (12 + Math.random() * 6) + 's';
+            document.body.appendChild(sakura);
+            setTimeout(() => {
+                sakura.remove();
+                sakuraCount--;
+            }, 18000);
+        }
+
+        setInterval(createFirefly, 100);
+        setInterval(createSakura, 100);
+
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFirefly, i * 400);
+            setTimeout(createSakura, i * 600);
+        }
+
+        // Dock interactions
+        document.querySelectorAll('.dock-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.classList.add('glow');
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.classList.remove('glow');
+            });
+
+            icon.addEventListener('click', function() {
+                this.classList.add('clicked');
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                    this.classList.add('clicked-end');
+                    setTimeout(() => {
+                        this.classList.remove('clicked-end');
+                    }, 150);
+                }, 150);
+            });
+
+            icon.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // IntersectionObserver for fade-in
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            const clockWidget = document.querySelector('.clock-widget');
+            const translateX = (mouseX - 0.5) * 20;
+            const translateY = (mouseY - 0.5) * 20;
+            clockWidget.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        });
+
+        // Keyboard shortcut for clock toggle
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                const clockWidget = document.querySelector('.clock-widget');
+                clockWidget.style.opacity = clockWidget.style.opacity === '0' ? '0.5' : '0';
+            }
+        });
+
+        console.log(`
+        ╔══════════════════════════════════════╗
+        ║     Welcome to Saurabh's Portfolio   ║
+        ║                                      ║
+        ║  Built with love, Linux, and anime   ║
+        ║         aesthetic in mind ✨         ║
+        ║                                      ║
+        ║      Press Ctrl+K to toggle clock    ║
+        ╚══════════════════════════════════════╝
+        `);
+    </script>
+</body>
+</html>
